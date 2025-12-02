@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Settings, FlaskConical, ShoppingCart, Twitter, Instagram, User } from 'lucide-react';
+import TransitionLayer, { TransitionLayerHandle } from '@/components/TransitionLayer';
 
 const PHRASES = [
     "our slogan here",
@@ -31,6 +32,12 @@ export default function Home() {
     const [mounted, setMounted] = useState(false);
     const [positions, setPositions] = useState<{ top: string; left: string; rotate: string }[]>([]);
     const [chaosBtnPos, setChaosBtnPos] = useState({ top: '50%', left: '50%' });
+    const transitionRef = React.useRef<TransitionLayerHandle>(null);
+
+    const handleNavClick = (e: React.MouseEvent, href: string) => {
+        e.preventDefault();
+        transitionRef.current?.startTransition(e.clientX, e.clientY, href);
+    };
 
     useEffect(() => {
         setMounted(true);
@@ -49,6 +56,8 @@ export default function Home() {
 
     return (
         <div className="relative min-h-screen w-full overflow-x-hidden bg-white flex flex-col items-center pt-10 font-sans text-black">
+            <TransitionLayer ref={transitionRef} />
+
             {/* Top Right Blob */}
             <div className="absolute top-[-10%] right-[-5%] h-[500px] w-[500px] rounded-full bg-gradient-to-br from-pink-200 to-purple-200 opacity-60 blur-3xl filter pointer-events-none" />
 
@@ -70,6 +79,7 @@ export default function Home() {
                         left: chaosBtnPos.left,
                         fontFamily: 'var(--font-indie-flower)',
                     }}
+                    onClick={(e) => handleNavClick(e, '/chaos')}
                 >
                     ENTER THE CHAOS
                 </button>
@@ -118,21 +128,30 @@ export default function Home() {
             {/* Footer Sections */}
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 px-4 mb-20 z-30 relative">
                 {/* The Unmethod */}
-                <div className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer">
+                <div
+                    className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer"
+                    onClick={(e) => handleNavClick(e, '/unmethod')}
+                >
                     <h3 className="text-2xl font-bold mb-1">The Unmethod:</h3>
                     <p className="text-lg mb-4">Why we break rules.</p>
                     <Settings size={64} strokeWidth={1.5} className="text-black" />
                 </div>
 
                 {/* Featured Projects */}
-                <div className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer">
+                <div
+                    className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer"
+                    onClick={(e) => handleNavClick(e, '/projects')}
+                >
                     <h3 className="text-2xl font-bold mb-1">Featured Projects:</h3>
                     <p className="text-lg mb-4">See our latest experiments.</p>
                     <FlaskConical size={64} strokeWidth={1.5} className="text-black" />
                 </div>
 
                 {/* Visit The Shop */}
-                <div className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer">
+                <div
+                    className="flex flex-col items-center text-center transition-transform duration-300 ease-out hover:scale-110 cursor-pointer"
+                    onClick={(e) => handleNavClick(e, '/shop')}
+                >
                     <h3 className="text-2xl font-bold mb-1">Visit The Shop:</h3>
                     <p className="text-lg mb-4">We'll do our worst.</p>
                     <ShoppingCart size={64} strokeWidth={1.5} className="text-black" />
@@ -142,7 +161,10 @@ export default function Home() {
             {/* Bottom Row */}
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 z-30 relative">
                 {/* Socials */}
-                <div className="bg-[#1a1a2e] text-white py-16 flex flex-col items-center justify-center rounded-tr-[50px] transition-transform duration-300 ease-out hover:scale-105 cursor-pointer">
+                <div
+                    className="bg-[#1a1a2e] text-white py-16 flex flex-col items-center justify-center rounded-tr-[50px] transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
+                    onClick={(e) => handleNavClick(e, '/socials')}
+                >
                     <h3 className="text-3xl mb-8">Socials</h3>
                     <div className="flex gap-8">
                         <Twitter size={48} />
@@ -152,7 +174,10 @@ export default function Home() {
                 </div>
 
                 {/* Team */}
-                <div className="bg-[#fdfbf7] py-16 flex flex-col items-center justify-center transition-transform duration-300 ease-out hover:scale-105 cursor-pointer">
+                <div
+                    className="bg-[#fdfbf7] py-16 flex flex-col items-center justify-center transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
+                    onClick={(e) => handleNavClick(e, '/team')}
+                >
                     <h3 className="text-3xl mb-8 text-black">Team</h3>
                     <div className="flex gap-12">
                         <div className="flex flex-col items-center">
