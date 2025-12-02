@@ -64,7 +64,7 @@ export default function Home() {
             {/* Chaos Button */}
             {mounted && (
                 <button
-                    className="absolute z-50 bg-black text-white px-8 py-4 text-2xl font-bold border-4 border-red-500 rotate-3 hover:scale-110 transition-transform shadow-[5px_5px_0px_0px_rgba(255,0,0,1)]"
+                    className="absolute z-50 bg-purple-600 text-white px-12 py-6 text-4xl font-bold border-4 border-purple-900 rotate-3 hover:scale-110 transition-transform shadow-[5px_5px_0px_0px_rgba(88,28,135,1)] rounded-tl-3xl rounded-br-3xl rounded-tr-sm rounded-bl-md"
                     style={{
                         top: chaosBtnPos.top,
                         left: chaosBtnPos.left,
@@ -118,21 +118,21 @@ export default function Home() {
             {/* Footer Sections */}
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 px-4 mb-20 z-30 relative">
                 {/* The Unmethod */}
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-center text-center transition-transform hover:scale-110 cursor-pointer">
                     <h3 className="text-2xl font-bold mb-1">The Unmethod:</h3>
                     <p className="text-lg mb-4">Why we break rules.</p>
                     <Settings size={64} strokeWidth={1.5} className="text-black" />
                 </div>
 
                 {/* Featured Projects */}
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-center text-center transition-transform hover:scale-110 cursor-pointer">
                     <h3 className="text-2xl font-bold mb-1">Featured Projects:</h3>
                     <p className="text-lg mb-4">See our latest experiments.</p>
                     <FlaskConical size={64} strokeWidth={1.5} className="text-black" />
                 </div>
 
                 {/* Visit The Shop */}
-                <div className="flex flex-col items-center text-center">
+                <div className="flex flex-col items-center text-center transition-transform hover:scale-110 cursor-pointer">
                     <h3 className="text-2xl font-bold mb-1">Visit The Shop:</h3>
                     <p className="text-lg mb-4">We'll do our worst.</p>
                     <ShoppingCart size={64} strokeWidth={1.5} className="text-black" />
@@ -142,7 +142,7 @@ export default function Home() {
             {/* Bottom Row */}
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 z-30 relative">
                 {/* Socials */}
-                <div className="bg-[#1a1a2e] text-white py-16 flex flex-col items-center justify-center rounded-tr-[50px]">
+                <div className="bg-[#1a1a2e] text-white py-16 flex flex-col items-center justify-center rounded-tr-[50px] transition-transform hover:scale-105 cursor-pointer">
                     <h3 className="text-3xl mb-8">Socials</h3>
                     <div className="flex gap-8">
                         <Twitter size={48} />
@@ -152,7 +152,7 @@ export default function Home() {
                 </div>
 
                 {/* Team */}
-                <div className="bg-[#fdfbf7] py-16 flex flex-col items-center justify-center">
+                <div className="bg-[#fdfbf7] py-16 flex flex-col items-center justify-center transition-transform hover:scale-105 cursor-pointer">
                     <h3 className="text-3xl mb-8 text-black">Team</h3>
                     <div className="flex gap-12">
                         <div className="flex flex-col items-center">
