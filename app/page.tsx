@@ -37,8 +37,36 @@ export default function Home() {
       {/* Bottom Left Line */}
       <div className="absolute bottom-[15%] left-[5%] h-1 w-48 rotate-[-15deg] transform bg-gradient-to-r from-purple-400 to-purple-600 opacity-80" />
 
+      {/* Logo Section */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 transform z-20">
+        <div className="relative">
+          {/* Grid Background with Fade */}
+          <div
+            className="absolute inset-[-50px] -z-10 opacity-30"
+            style={{
+              backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              maskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
+              WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 80%)',
+            }}
+          />
+
+          {/* Logo with Glitch Animation */}
+          <div className="animate-glitch hover:animate-none transition-transform duration-300">
+            <Image
+              src="/aint-labs-logo.jpg"
+              alt="Ain't Labs Logo"
+              width={300}
+              height={100}
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Center Image */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform z-10">
         <Image
           src="/characters.jpg"
           alt="Characters"
@@ -53,7 +81,7 @@ export default function Home() {
       {mounted && positions.map((pos, index) => (
         <div
           key={index}
-          className="absolute text-2xl text-gray-800"
+          className="absolute text-2xl text-gray-800 z-30 pointer-events-none"
           style={{
             top: pos.top,
             left: pos.left,
