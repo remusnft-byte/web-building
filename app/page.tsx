@@ -42,8 +42,8 @@ export default function Home() {
                 <Image
                     src="/aintlabs-logo.png"
                     alt="Aint Labs Logo"
-                    width={1200}
-                    height={450}
+                    width={1400}
+                    height={525}
                     className="object-contain"
                     priority
                 />
