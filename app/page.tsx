@@ -52,7 +52,7 @@ export default function Home() {
           />
 
           {/* Logo with Glitch Animation */}
-          <div className="animate-glitch hover:animate-none transition-transform duration-300">
+          <div className="animate-glitch hover:animate-none transition-transform duration-300 mix-blend-multiply">
             <Image
               src="/aint-labs-logo.jpg"
               alt="Ain't Labs Logo"
