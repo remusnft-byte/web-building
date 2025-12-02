@@ -56,7 +56,7 @@ export default function Home() {
                     alt="Characters"
                     width={600}
                     height={400}
-                    className="object-contain"
+                    className="object-contain mix-blend-multiply"
                     priority
                 />
             </div>
