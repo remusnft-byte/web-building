@@ -56,7 +56,7 @@ export default function Home() {
                     alt="Characters"
                     width={600}
                     height={400}
-                    className="object-contain mix-blend-multiply"
+                    className="object-contain mix-blend-multiply contrast-125 brightness-110"
                     priority
                 />
             </div>
