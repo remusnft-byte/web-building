@@ -11,48 +11,97 @@ const PHRASES = [
     "don't read here please",
 ];
 
-// Custom TikTok icon since Lucide might not have it or it varies
-const TikTokIcon = ({ size = 24, color = "currentColor" }) => (
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-    >
-        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-    </svg>
-);
+
 
 export default function Home() {
     const [mounted, setMounted] = useState(false);
     const [positions, setPositions] = useState<{ top: string; left: string; rotate: string }[]>([]);
     const [chaosBtnPos, setChaosBtnPos] = useState({ top: '50%', left: '50%' });
+    const [isDragging, setIsDragging] = useState(false);
+    const [hasDragged, setHasDragged] = useState(false);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const justFinishedDragging = React.useRef(false);
     const transitionRef = React.useRef<TransitionLayerHandle>(null);
 
     const handleNavClick = (e: React.MouseEvent, href: string) => {
+        if (isDragging || justFinishedDragging.current) return; // Prevent navigation if dragging or just finished
         e.preventDefault();
         transitionRef.current?.startTransition(e.clientX, e.clientY, href);
     };
 
-    useEffect(() => {
-        setMounted(true);
+    const shufflePositions = () => {
         const newPositions = PHRASES.map(() => ({
             top: `${Math.random() * 80 + 10}%`,
             left: `${Math.random() * 80 + 10}%`,
             rotate: `${Math.random() * 30 - 15}deg`,
         }));
         setPositions(newPositions);
+    };
+
+    useEffect(() => {
+        setMounted(true);
+        shufflePositions();
 
         setChaosBtnPos({
             top: `${Math.random() * 80 + 10}%`,
             left: `${Math.random() * 80 + 10}%`,
         });
     }, []);
+
+    // Handle Tab key to reshuffle
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                shufflePositions();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
+    // Handle Dragging
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setHasDragged(false);
+        const btn = e.currentTarget.getBoundingClientRect();
+        setDragOffset({
+            x: e.clientX - btn.left,
+            y: e.clientY - btn.top,
+        });
+    };
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!isDragging) return;
+            setHasDragged(true); // Mark that actual dragging occurred
+            setChaosBtnPos({
+                top: `${e.clientY - dragOffset.y}px`,
+                left: `${e.clientX - dragOffset.x}px`,
+            });
+        };
+
+        const handleMouseUp = () => {
+            setIsDragging(false);
+            if (hasDragged) {
+                justFinishedDragging.current = true;
+                // Reset after brief delay (200ms)
+                setTimeout(() => {
+                    justFinishedDragging.current = false;
+                }, 200);
+            }
+        };
+
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging, dragOffset, hasDragged]);
 
     return (
         <div className="relative min-h-screen w-full overflow-x-hidden bg-white flex flex-col items-center pt-10 font-sans text-black">
@@ -80,6 +129,7 @@ export default function Home() {
                         fontFamily: 'var(--font-indie-flower)',
                     }}
                     onClick={(e) => handleNavClick(e, '/chaos')}
+                    onMouseDown={handleMouseDown}
                 >
                     ENTER THE CHAOS
                 </button>
@@ -88,7 +138,7 @@ export default function Home() {
             {/* Logo */}
             <div className="relative z-10 mb-8">
                 <Image
-                    src="/aintlabs-logo.png"
+                    src="/aintlabs-logo-transparent-v3.png"
                     alt="Aint Labs Logo"
                     width={1000}
                     height={375}
@@ -159,18 +209,23 @@ export default function Home() {
             </div>
 
             {/* Bottom Row */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 z-30 relative">
-                {/* Socials */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-0 z-30 relative">
+                {/* X (Twitter) */}
                 <div
-                    className="bg-[#1a1a2e] text-white py-16 flex flex-col items-center justify-center rounded-tr-[50px] transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
-                    onClick={(e) => handleNavClick(e, '/socials')}
+                    className="bg-black text-white py-16 flex flex-col items-center justify-center transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
+                    onClick={() => window.open('https://x.com', '_blank')}
                 >
-                    <h3 className="text-3xl mb-8">Socials</h3>
-                    <div className="flex gap-8">
-                        <Twitter size={48} />
-                        <Instagram size={48} />
-                        <TikTokIcon size={48} color="white" />
-                    </div>
+                    <h3 className="text-3xl mb-8">X</h3>
+                    <Twitter size={48} />
+                </div>
+
+                {/* Instagram */}
+                <div
+                    className="bg-gradient-to-br from-purple-600 to-pink-500 text-white py-16 flex flex-col items-center justify-center transition-transform duration-300 ease-out hover:scale-105 cursor-pointer"
+                    onClick={() => window.open('https://instagram.com', '_blank')}
+                >
+                    <h3 className="text-3xl mb-8">Instagram</h3>
+                    <Instagram size={48} />
                 </div>
 
                 {/* Team */}
@@ -184,13 +239,13 @@ export default function Home() {
                             <div className="w-24 h-24 rounded-full border-2 border-black flex items-center justify-center mb-2">
                                 <User size={48} className="text-black" />
                             </div>
-                            <span className="font-bold text-sm tracking-wider">COFOUNDER</span>
+                            <span className="font-bold text-sm tracking-wider text-black">COFOUNDER</span>
                         </div>
                         <div className="flex flex-col items-center">
                             <div className="w-24 h-24 rounded-full border-2 border-black flex items-center justify-center mb-2">
                                 <User size={48} className="text-black" />
                             </div>
-                            <span className="font-bold text-sm tracking-wider">COFOUNDER</span>
+                            <span className="font-bold text-sm tracking-wider text-black">COFOUNDER</span>
                         </div>
                     </div>
                 </div>
